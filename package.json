@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
+  "module": "esnext",
+  "type": "module",
   "scripts": {
     "start": "tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
