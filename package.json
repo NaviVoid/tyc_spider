@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
-  "module": "esnext",
+  "module": "nodenext",
   "type": "module",
   "scripts": {
-    "start": "tsc && node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node ."
   },
   "keywords": [],
   "author": "Navi",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.16.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }
