@@ -1,0 +1,760 @@
+{
+  "state": "ok",
+  "message": null,
+  "special": "",
+  "vipMessage": "",
+  "isLogin": 0,
+  "data": {
+    "total": 18,
+    "list": [
+      {
+        "legalPersonId": 3361906320,
+        "regStatus": "开业",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "广东国民凯得科技创业投资企业（有限合伙）",
+              "cid": 3137041826
+            }
+          ]
+        ],
+        "estiblishTime": 1513180800000,
+        "legalType": 2,
+        "regCapital": "100000.000000万人民币",
+        "name": "广东国民凯得科技创业投资企业（有限合伙）",
+        "alias": "国民凯得",
+        "logo": null,
+        "percent": "30%",
+        "cid": 3137041826,
+        "legalPersonName": "广东国民创新创业投资管理有限公司"
+      },
+      {
+        "legalPersonId": 26175419,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "宁波高灵股权投资合伙企业（有限合伙）",
+              "cid": 3397620563
+            }
+          ]
+        ],
+        "estiblishTime": 1576166400000,
+        "legalType": 2,
+        "regCapital": "280000.000000万人民币",
+        "name": "宁波高灵股权投资合伙企业（有限合伙）",
+        "alias": "高灵股权",
+        "logo": null,
+        "percent": "30%",
+        "cid": 3397620563,
+        "legalPersonName": "高能天汇创业投资有限公司"
+      },
+      {
+        "legalPersonId": 2340102789,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "30%"
+            },
+            {
+              "type": "company",
+              "value": "苏州瑞华投资合伙企业（有限合伙）",
+              "cid": 2340102768
+            }
+          ]
+        ],
+        "estiblishTime": 1436112000000,
+        "legalType": 2,
+        "regCapital": "100000.000000万",
+        "name": "苏州瑞华投资合伙企业（有限合伙）",
+        "alias": "瑞华投资",
+        "logo": "https://img5.tianyancha.com/logo/lll/f010768921567d07c0aa0ce424ff9beb.png@!f_200x200",
+        "percent": "30%",
+        "cid": 2340102768,
+        "legalPersonName": "江苏瑞华创业投资管理有限公司"
+      },
+      {
+        "legalPersonId": 0,
+        "regStatus": "开业",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "29.5%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "29.5%"
+            },
+            {
+              "type": "company",
+              "value": "潍坊中科海创股权投资合伙企业（有限合伙）",
+              "cid": 3176398301
+            }
+          ]
+        ],
+        "estiblishTime": 1523808000000,
+        "legalType": 1,
+        "regCapital": "200000.000000万",
+        "name": "潍坊中科海创股权投资合伙企业（有限合伙）",
+        "alias": "中科海创",
+        "logo": null,
+        "percent": "29.5%",
+        "cid": 3176398301,
+        "legalPersonName": ""
+      },
+      {
+        "legalPersonId": 3353620093,
+        "regStatus": "开业",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "26.51%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "26.51%"
+            },
+            {
+              "type": "company",
+              "value": "广州凯得一期生物医药产业投资基金合伙企业（有限合伙）",
+              "cid": 3429710277
+            }
+          ]
+        ],
+        "estiblishTime": 1588089600000,
+        "legalType": 2,
+        "regCapital": "41500.000000万人民币",
+        "name": "广州凯得一期生物医药产业投资基金合伙企业（有限合伙）",
+        "alias": "凯得一期",
+        "logo": null,
+        "percent": "26.51%",
+        "cid": 3429710277,
+        "legalPersonName": "广州黄埔生物医药产业投资基金管理有限公司"
+      },
+      {
+        "legalPersonId": 1249037113,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            }
+          ]
+        ],
+        "estiblishTime": 1510156800000,
+        "legalType": 2,
+        "regCapital": "351800.000000万人民币",
+        "name": "上海绿色技术创业投资中心（有限合伙）",
+        "alias": "绿色技术",
+        "logo": null,
+        "percent": "25.58%",
+        "cid": 3114771659,
+        "legalPersonName": "上海双创投资管理有限公司"
+      },
+      {
+        "legalPersonId": 2352182847,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "25%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25%"
+            },
+            {
+              "type": "company",
+              "value": "黑龙江科力北方投资企业（有限合伙）",
+              "cid": 3153498341
+            }
+          ]
+        ],
+        "estiblishTime": 1518019200000,
+        "legalType": 2,
+        "regCapital": "160000.000000万人民币",
+        "name": "黑龙江科力北方投资企业（有限合伙）",
+        "alias": "科力北方",
+        "logo": null,
+        "percent": "25%",
+        "cid": 3153498341,
+        "legalPersonName": "哈尔滨科力创业投资管理有限公司"
+      },
+      {
+        "legalPersonId": 998424134,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "24.92%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "24.92%"
+            },
+            {
+              "type": "company",
+              "value": "沈阳约印鼎泰股权投资管理中心（有限合伙）",
+              "cid": 3377953113
+            }
+          ]
+        ],
+        "estiblishTime": 1570982400000,
+        "legalType": 2,
+        "regCapital": "80256.178200万人民币",
+        "name": "沈阳约印鼎泰股权投资管理中心（有限合伙）",
+        "alias": "约印鼎泰",
+        "logo": null,
+        "percent": "24.92%",
+        "cid": 3377953113,
+        "legalPersonName": "约印大通（北京）创业投资有限公司"
+      },
+      {
+        "legalPersonId": 522032236,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "23.92%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "23.92%"
+            },
+            {
+              "type": "company",
+              "value": "常春藤（常州）股权投资基金合伙企业（有限合伙）",
+              "cid": 2385423444
+            }
+          ]
+        ],
+        "estiblishTime": 1462291200000,
+        "legalType": 2,
+        "regCapital": "37200.000000万",
+        "name": "常春藤（常州）股权投资基金合伙企业（有限合伙）",
+        "alias": "常春藤",
+        "logo": "https://img5.tianyancha.com/logo/lll/5bc702fba956eacf907227777f90da51.png@!f_200x200",
+        "percent": "23.92%",
+        "cid": 2385423444,
+        "legalPersonName": "上海常春藤投资有限公司"
+      },
+      {
+        "legalPersonId": 3332454071,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 1,
+              "type": "percent",
+              "value": "20%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "20%"
+            },
+            {
+              "type": "company",
+              "value": "湖南省天惠军民融合投资基金合伙企业（有限合伙）",
+              "cid": 3438311122
+            }
+          ]
+        ],
+        "estiblishTime": 1577289600000,
+        "legalType": 2,
+        "regCapital": "226500.000000万人民币",
+        "name": "湖南省天惠军民融合投资基金合伙企业（有限合伙）",
+        "alias": "天惠军民",
+        "logo": null,
+        "percent": "20%",
+        "cid": 3438311122,
+        "legalPersonName": "湖南天惠投资基金管理有限公司"
+      },
+      {
+        "legalPersonId": 3332454071,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "19.96%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "20%"
+            },
+            {
+              "type": "company",
+              "value": "湖南省天惠军民融合投资基金合伙企业（有限合伙）",
+              "cid": 3438311122
+            },
+            {
+              "type": "percent",
+              "value": "99.78%"
+            },
+            {
+              "type": "company",
+              "value": "湖南惠思企业管理合伙企业（有限合伙）",
+              "cid": 4295000328
+            }
+          ]
+        ],
+        "estiblishTime": 1611849600000,
+        "legalType": 2,
+        "regCapital": "455.000000万人民币",
+        "name": "湖南惠思企业管理合伙企业（有限合伙）",
+        "alias": "惠思企业",
+        "logo": null,
+        "percent": "19.96%",
+        "cid": 4295000328,
+        "legalPersonName": "湖南天惠投资基金管理有限公司"
+      },
+      {
+        "legalPersonId": 2190497750,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "8.24%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            },
+            {
+              "type": "percent",
+              "value": "32.22%"
+            },
+            {
+              "type": "company",
+              "value": "上海唯依医院投资管理有限公司",
+              "cid": 1279283401
+            }
+          ]
+        ],
+        "estiblishTime": 1058198400000,
+        "legalType": 1,
+        "regCapital": "13350.000000万人民币",
+        "name": "上海唯依医院投资管理有限公司",
+        "alias": "唯依医院",
+        "logo": "https://img5.tianyancha.com/logo/lll/519600d537d0fc6c8bce2b862928a32a.png@!f_200x200",
+        "percent": "8.24%",
+        "cid": 1279283401,
+        "legalPersonName": "赵凯"
+      },
+      {
+        "legalPersonId": 2002895321,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "6.13%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25%"
+            },
+            {
+              "type": "company",
+              "value": "黑龙江科力北方投资企业（有限合伙）",
+              "cid": 3153498341
+            },
+            {
+              "type": "percent",
+              "value": "24.51%"
+            },
+            {
+              "type": "company",
+              "value": "哈尔滨天愈康复医疗机器人有限公司",
+              "cid": 1045476915
+            }
+          ]
+        ],
+        "estiblishTime": 1431360000000,
+        "legalType": 1,
+        "regCapital": "798.260000万人民币",
+        "name": "哈尔滨天愈康复医疗机器人有限公司",
+        "alias": "天愈康复",
+        "logo": "https://img5.tianyancha.com/logo/lll/60080baf9e63d20b7b45c5f3d14e4c94.png@!f_200x200",
+        "percent": "6.13%",
+        "cid": 1045476915,
+        "legalPersonName": "杨炽夫"
+      },
+      {
+        "legalPersonId": 1861484890,
+        "regStatus": "注销",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "5.63%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            },
+            {
+              "type": "percent",
+              "value": "22%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色环保能源有限公司",
+              "cid": 828961198
+            },
+            {
+              "type": "percent",
+              "value": "100%"
+            },
+            {
+              "type": "company",
+              "value": "上海前威新能源发展有限公司",
+              "cid": 2972026561
+            }
+          ]
+        ],
+        "estiblishTime": 1157040000000,
+        "legalType": 1,
+        "regCapital": "1120万人民币",
+        "name": "上海前威新能源发展有限公司",
+        "alias": "前威",
+        "logo": null,
+        "percent": "5.63%",
+        "cid": 2972026561,
+        "legalPersonName": "唐征歧"
+      },
+      {
+        "legalPersonId": 1861484890,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "5.63%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            },
+            {
+              "type": "percent",
+              "value": "22%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色环保能源有限公司",
+              "cid": 828961198
+            }
+          ]
+        ],
+        "estiblishTime": 960220800000,
+        "legalType": 1,
+        "regCapital": "102704.166700万人民币",
+        "name": "上海绿色环保能源有限公司",
+        "alias": "绿色环保",
+        "logo": "https://img5.tianyancha.com/logo/lll/67f9ec2574c6fa4ea6f5bed669af0780.png@!f_200x200",
+        "percent": "5.63%",
+        "cid": 828961198,
+        "legalPersonName": "唐征歧"
+      },
+      {
+        "legalPersonId": 1861484890,
+        "regStatus": "注销",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "5.63%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            },
+            {
+              "type": "percent",
+              "value": "22%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色环保能源有限公司",
+              "cid": 828961198
+            },
+            {
+              "type": "percent",
+              "value": "100%"
+            },
+            {
+              "type": "company",
+              "value": "上海同启热电有限公司",
+              "cid": 2971649495
+            }
+          ]
+        ],
+        "estiblishTime": 1171296000000,
+        "legalType": 1,
+        "regCapital": "350万人民币",
+        "name": "上海同启热电有限公司",
+        "alias": "同启热电",
+        "logo": null,
+        "percent": "5.63%",
+        "cid": 2971649495,
+        "legalPersonName": "唐征歧"
+      },
+      {
+        "legalPersonId": 1861484890,
+        "regStatus": "注销",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "5.63%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25.58%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色技术创业投资中心（有限合伙）",
+              "cid": 3114771659
+            },
+            {
+              "type": "percent",
+              "value": "22%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿色环保能源有限公司",
+              "cid": 828961198
+            },
+            {
+              "type": "percent",
+              "value": "100%"
+            },
+            {
+              "type": "company",
+              "value": "上海绿育热电有限公司",
+              "cid": 2943902366
+            }
+          ]
+        ],
+        "estiblishTime": 1194969600000,
+        "legalType": 1,
+        "regCapital": "210万人民币",
+        "name": "上海绿育热电有限公司",
+        "alias": "绿育热电",
+        "logo": null,
+        "percent": "5.63%",
+        "cid": 2943902366,
+        "legalPersonName": "唐征歧"
+      },
+      {
+        "legalPersonId": 2352998556,
+        "regStatus": "存续",
+        "chainList": [
+          [
+            {
+              "investType": 2,
+              "type": "percent",
+              "value": "5%"
+            },
+            {
+              "type": "company",
+              "value": "国家科技风险开发事业中心",
+              "cid": 3097983719
+            },
+            {
+              "type": "percent",
+              "value": "25%"
+            },
+            {
+              "type": "company",
+              "value": "黑龙江科力北方投资企业（有限合伙）",
+              "cid": 3153498341
+            },
+            {
+              "type": "percent",
+              "value": "20%"
+            },
+            {
+              "type": "company",
+              "value": "哈尔滨腾迈通用航空科技有限公司",
+              "cid": 2448827272
+            }
+          ]
+        ],
+        "estiblishTime": 1464537600000,
+        "legalType": 1,
+        "regCapital": "1666.666600万人民币",
+        "name": "哈尔滨腾迈通用航空科技有限公司",
+        "alias": "腾迈通用",
+        "logo": "https://img5.tianyancha.com/logo/lll/ed89d4e77fe15167127d75e40b0a1b01.png@!f_200x200",
+        "percent": "5%",
+        "cid": 2448827272,
+        "legalPersonName": "李伟"
+      }
+    ],
+    "pageNum": 1
+  }
+}

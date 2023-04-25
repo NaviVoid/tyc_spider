@@ -1,5 +1,34 @@
 import dotenv from "dotenv";
+import { parse } from "node-html-parser";
 dotenv.config();
+
+const fetch_tags = async (cid: number) => {
+  const url = `https://www.tianyancha.com/company/${cid}`;
+
+  const headers = {
+    Host: "www.tianyancha.com",
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+  };
+
+  const response = await fetch(url, { method: "GET", headers });
+  const text = await response.text();
+
+  if (text) {
+    try {
+      const html = parse(text);
+      const tags = html
+        .querySelectorAll(`div[class^=index_company-tag]`)
+        .map((elem) => elem.firstChild.innerText.trim());
+
+      console.log(tags);
+    } catch (e) {
+      console.log(`parse html error for ${cid}: ${e}`);
+    }
+  } else {
+    console.log(`didn't get html page for ${cid}`);
+  }
+};
 
 // GET https://capi.tianyancha.com/cloud-equity-provider/v4/hold/companyholding?_=1681978517131&id=3097983719&pageSize=100&pageNum=1
 // X-AUTH-TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzY4ODgwNTM4MiIsImlhdCI6MTY4MTk3ODIxNywiZXhwIjoxNjg0NTcwMjE3fQ.RTN0dASZr7Vc8g7rIMrK3nALA95WnCc6HNUzT2cwE2Wm7zI9a45nzZh1_vCDyx0RPan8r4hufDe981EbmZqhQw
@@ -30,9 +59,8 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
 const run = async () => {
   const ts = new Date().getTime();
   const token: string = process.env.token || "";
-  await fetch_one(3097983719, ts, token);
+  await fetch_one(2349608508, ts, token);
+  await fetch_tags(2349608508);
 };
 
 await run();
-
-export {};
