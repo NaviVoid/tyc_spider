@@ -14,7 +14,7 @@ const CompanySchema = new mongoose.Schema({
   reg_status: String,
   estiblish_time: Date,
   legal_type: Number,
-  reg_capital: Number,
+  reg_capital: String,
   name: { type: String, required: true },
   alias: String,
   legal_person_name: String,
@@ -24,8 +24,4 @@ const CompanySchema = new mongoose.Schema({
 const Company = mongoose.model("Company", CompanySchema);
 const Inv = mongoose.model("Inv", InvSchema);
 
-const close = () => {
-  mongoose.connection.close();
-};
-
-export { Company, Inv, close };
+export { Company, Inv };
