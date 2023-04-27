@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "nodenext",
+    "target": "ES6",
+    "module": "NodeNext",
     "rootDir": "./",
     "baseUrl": "./",
     "esModuleInterop": true,
@@ -10,6 +10,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "nodenext"
   }
 }

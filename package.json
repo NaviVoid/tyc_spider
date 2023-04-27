@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
-  "module": "nodenext",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "tsc && node ."
   },
@@ -17,6 +16,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
+    "mongoose": "^7.0.5",
     "node-html-parser": "^6.1.5"
   }
 }
