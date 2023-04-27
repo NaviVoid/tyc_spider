@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const InvSchema = new mongoose.Schema({
   owner: { type: Number, required: true },

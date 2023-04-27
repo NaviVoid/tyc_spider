@@ -1,8 +1,16 @@
-const dotenv = require("dotenv");
-const util = require("util");
-const nodeHtmlParser = require("node-html-parser");
-const { Company, Inv } = require("./db");
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import util from "util";
+import nodeHtmlParser from "node-html-parser";
+import { Company, Inv } from "./db.js";
+import { randomInt } from "crypto";
 dotenv.config();
+
+const sleep = (time: number) => {
+  return new Promise((resolve) =>
+    setTimeout(resolve, time + randomInt(time / 2))
+  );
+};
 
 /**
  * 访问html网页获取标签
@@ -75,7 +83,12 @@ const fetch_tags = async (cid: number, withOther = false) => {
         }
       }
 
-      await Company.updateOne({ cid }, { tags });
+      if (tags) {
+        await Company.updateOne({ cid }, { tags });
+        console.log(`${cid} has tags: ${tags}`);
+      } else {
+        console.log(`${cid} html: ${html}`);
+      }
     } catch (e) {
       console.log(`fetch tags error for ${cid}: ${e}`);
     }
@@ -134,7 +147,9 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
         await Inv.deleteMany({ owner: cid });
       }
 
-      infos.forEach(async (row: any) => {
+      console.log(`${cid} has ${infos.length} invests`);
+
+      for (const row of infos) {
         try {
           await Company.findOneAndUpdate(
             { cid: row.cid },
@@ -174,7 +189,8 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
         }
 
         await fetch_tags(row.cid);
-      });
+        await sleep(10000);
+      }
 
       return;
     }
@@ -185,25 +201,43 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
   }
 };
 
-const run = async () => {
+const update = async (cid: number) => {
   const ts = new Date().getTime();
   const token: string = process.env.token || "";
-  await fetch_one(38575694, ts, token);
-  await fetch_tags(38575694, true);
+  if (token === "") {
+    console.log(`invalid token`);
+    return;
+  }
+
+  await fetch_one(cid, ts, token);
+  await fetch_tags(cid, true);
 };
 
-(async function () {
-  const mongoose = require("mongoose");
+// const show = async () => {};
+
+const run = async () => {
   await mongoose.connect(process.env.db || "", {
     keepAlive: true,
     keepAliveInitialDelay: 300000,
   });
 
+  const cids = [
+    3097983719, 1834977, 5332516171, 10000203432, 2344229885, 3479518807,
+    449614599, 730214534, 3269002394, 3290645689,
+  ];
+
   try {
-    await run();
+    for (const cid of cids) {
+      console.log(`update ${cid} start`);
+      await update(cid);
+      console.log(`update ${cid} done`);
+      await sleep(10000);
+    }
   } catch (err) {
     console.log(err);
   } finally {
     await mongoose.connection.close();
   }
-})();
+};
+
+await run();
