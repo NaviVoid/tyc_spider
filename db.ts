@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
 const InvSchema = new mongoose.Schema({
+  owner_name: { type: String, required: true },
+  name: { type: String, required: true },
   owner: { type: Number, required: true },
   cid: { type: Number, required: true },
   percent: Number,

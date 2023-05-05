@@ -4,7 +4,15 @@ import util from "util";
 import nodeHtmlParser from "node-html-parser";
 import { Company, Inv } from "./db.js";
 import { randomInt } from "crypto";
+import fs from "fs";
 dotenv.config();
+
+const MAX_DEPTH = 3;
+const CSV_FILE = `./res.csv`;
+const CIDS = [
+  3097983719, 1834977, 5332516171, 10000203432, 2344229885, 3479518807,
+  449614599, 730214534, 3269002394, 3290645689,
+];
 
 const sleep = (time: number) => {
   return new Promise((resolve) =>
@@ -16,8 +24,9 @@ const sleep = (time: number) => {
  * 访问html网页获取标签
  * @param cid
  * @param withOther 是否在html上获取公司信息, 用于无法从api里获取的公司
+ * @param depth 当前为第几层递归
  */
-const fetch_tags = async (cid: number, withOther = false) => {
+const fetch_tags = async (cid: number, withOther = false, depth = 1) => {
   const url = `https://www.tianyancha.com/company/${cid}`;
 
   const headers = {
@@ -41,7 +50,9 @@ const fetch_tags = async (cid: number, withOther = false) => {
         const person_html =
           html.querySelector(`script#__NEXT_DATA__`)?.innerText;
         if (!person_html) {
-          console.log(`fetch tags withOther for ${cid} failed`);
+          console.log(
+            `${"  ".repeat(depth - 1)}fetch tags withOther for ${cid} failed`
+          );
         } else {
           const data =
             JSON.parse(person_html)?.props?.pageProps?.dehydratedState?.queries;
@@ -56,7 +67,9 @@ const fetch_tags = async (cid: number, withOther = false) => {
             const res = query.pop()?.state?.data?.data;
             if (!res) {
               console.log(
-                `fetch tags withOther for ${cid} failed: no data in query`
+                `${"  ".repeat(
+                  depth - 1
+                )}fetch tags withOther for ${cid} failed: no data in query`
               );
             } else {
               await Company.findOneAndUpdate(
@@ -77,7 +90,9 @@ const fetch_tags = async (cid: number, withOther = false) => {
             }
           } else {
             console.log(
-              `fetch tags withOther for ${cid} failed: no queries in json`
+              `${"  ".repeat(
+                depth - 1
+              )}fetch tags withOther for ${cid} failed: no queries in json`
             );
           }
         }
@@ -85,19 +100,30 @@ const fetch_tags = async (cid: number, withOther = false) => {
 
       if (tags) {
         await Company.updateOne({ cid }, { tags });
-        console.log(`${cid} has tags: ${tags}`);
+        console.log(`${"  ".repeat(depth - 1)}${cid} has tags: ${tags}`);
       } else {
-        console.log(`${cid} html: ${html}`);
+        console.log(`${"  ".repeat(depth - 1)}${cid} html: ${html}`);
       }
     } catch (e) {
-      console.log(`fetch tags error for ${cid}: ${e}`);
+      console.log(`${"  ".repeat(depth - 1)}fetch tags error for ${cid}: ${e}`);
     }
   } else {
-    console.log(`didn't get html page for ${cid}`);
+    console.log(`${"  ".repeat(depth - 1)}didn't get html page for ${cid}`);
   }
 };
 
-const fetch_one = async (cid: number, timestamp: number, token: string) => {
+const fetch_one = async (
+  cid: number,
+  timestamp: number,
+  token: string,
+  depth = 1
+) => {
+  const cpy = await Company.findOne({ cid });
+  if (!cpy?.name) {
+    console.log(`${cid} not exists`);
+    return;
+  }
+
   const url = `https://capi.tianyancha.com/cloud-equity-provider/v4/hold/companyholding?_=${timestamp}&id=${cid}&pageSize=100&pageNum=1`;
 
   const headers = {
@@ -113,7 +139,9 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
   const response = await fetch(url, { method: "GET", headers, mode: "cors" });
   if (response.status !== 200) {
     console.log(
-      `fetch one for ${cid} request failed with code: ${response.status}`
+      `${"  ".repeat(depth - 1)}fetch one for ${
+        cpy?.name
+      } request failed with code: ${response.status}`
     );
     return;
   }
@@ -147,7 +175,9 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
         await Inv.deleteMany({ owner: cid });
       }
 
-      console.log(`${cid} has ${infos.length} invests`);
+      console.log(
+        `${"  ".repeat(depth - 1)}${cpy?.name} has ${infos.length} invests`
+      );
 
       for (const row of infos) {
         try {
@@ -167,8 +197,7 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
             }
           );
         } catch (err) {
-          if (err)
-            console.log(`${row.cid} ${row.name} upsert company error: ${err}`);
+          if (err) console.log(`${row.name} upsert company error: ${err}`);
         }
 
         try {
@@ -176,6 +205,8 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
             { owner: cid, cid: row.cid },
             {
               percent: row.percent,
+              owner_name: cpy?.name || "",
+              name: row.name,
             },
             {
               upsert: true,
@@ -184,20 +215,38 @@ const fetch_one = async (cid: number, timestamp: number, token: string) => {
         } catch (err) {
           if (err)
             console.log(
-              `${row.cid} ${row.name} upsert inv for ${cid} error: ${err}`
+              `${row.name} upsert inv for ${cpy?.name} error: ${err}`
             );
         }
 
         await fetch_tags(row.cid);
-        await sleep(10000);
+        await sleep(8000);
+      }
+
+      // 进入下一层
+      if (depth < MAX_DEPTH) {
+        for (const row of infos) {
+          console.log(
+            `${"  ".repeat(depth - 1)}${row.name} fetch in depth: ${depth + 1}`
+          );
+          await fetch_one(row.cid, timestamp, token, depth + 1);
+        }
       }
 
       return;
     }
 
-    console.log(`api call for ${cid} returns ${util.inspect(res)}`);
+    if (rows.length !== 0) {
+      console.log(
+        `${"  ".repeat(depth - 1)}api call for ${
+          cpy?.name
+        } returns ${util.inspect(res)}`
+      );
+    }
   } else {
-    console.log(`api call for ${cid} returns null`);
+    console.log(
+      `${"  ".repeat(depth - 1)}api call for ${cpy?.name} returns null`
+    );
   }
 };
 
@@ -209,34 +258,125 @@ const update = async (cid: number) => {
     return;
   }
 
-  await fetch_one(cid, ts, token);
   await fetch_tags(cid, true);
+  await fetch_one(cid, ts, token);
 };
 
-// const show = async () => {};
+interface InvInterface {
+  cid: number;
+  pct: number;
+  owner: string;
+  name: string;
+}
 
-const run = async () => {
+const save_csv = async () => {
   await mongoose.connect(process.env.db || "", {
     keepAlive: true,
     keepAliveInitialDelay: 300000,
   });
 
-  const cids = [
-    3097983719, 1834977, 5332516171, 10000203432, 2344229885, 3479518807,
-    449614599, 730214534, 3269002394, 3290645689,
-  ];
+  fs.writeFileSync(CSV_FILE, "company,pct,company,pct,company,pct,company\n", {
+    flag: "w",
+  });
 
-  try {
-    for (const cid of cids) {
-      console.log(`update ${cid} start`);
-      await update(cid);
-      console.log(`update ${cid} done`);
-      await sleep(10000);
+  for (const cid of CIDS) {
+    try {
+      const level1_invs: InvInterface[] = (await Inv.find({ owner: cid })).map(
+        (row) => {
+          return {
+            cid: row.cid,
+            pct: row.percent || 0,
+            owner: row.owner_name,
+            name: row.name,
+          };
+        }
+      );
+
+      if (level1_invs.length > 0) {
+        let lines: string[] = [];
+
+        for (const lv1_inv of level1_invs) {
+          const lv1_line = `${lv1_inv.owner},${lv1_inv.pct},${lv1_inv.name}`;
+
+          const lv2_invs = (
+            await Inv.find({
+              owner: lv1_inv.cid,
+            })
+          ).map((row) => {
+            return {
+              cid: row.cid,
+              pct: row.percent || 0,
+              name: row.name,
+            };
+          });
+
+          if (lv2_invs.length > 0) {
+            for (const lv2_inv of lv2_invs) {
+              const lv2_line = `${lv1_line},${lv2_inv.pct},${lv2_inv.name}`;
+
+              const lv3_invs = (
+                await Inv.find({
+                  owner: lv2_inv.cid,
+                })
+              ).map((row) => {
+                return {
+                  cid: row.cid,
+                  pct: row.percent || 0,
+                  name: row.name,
+                };
+              });
+
+              if (lv3_invs.length > 0) {
+                const lv3_lines = lv3_invs.map(
+                  (lv3_inv) => `${lv2_line},${lv3_inv.pct},${lv3_inv.name}`
+                );
+                lines = lines.concat(lv3_lines);
+              } else {
+                lines.push(lv2_line);
+              }
+            }
+          } else {
+            lines.push(lv1_line);
+          }
+        }
+
+        fs.writeFileSync(CSV_FILE, lines.join("\n") + "\n", { flag: "a" });
+      }
+    } catch (err) {
+      console.log(`save csv for ${cid} failed: ${err}`);
+      continue;
     }
-  } catch (err) {
-    console.log(err);
-  } finally {
-    await mongoose.connection.close();
+  }
+
+  await mongoose.connection.close();
+};
+
+const run = async () => {
+  const action = process.argv.at(2);
+  if (!action) {
+    return;
+  }
+
+  await mongoose.connect(process.env.db || "", {
+    keepAlive: true,
+    keepAliveInitialDelay: 300000,
+  });
+
+  if (action === "update") {
+    try {
+      for (const cid of CIDS) {
+        console.log(`update ${cid} start`);
+        await update(cid);
+        console.log(`update ${cid} done`);
+        await sleep(10000);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await mongoose.connection.close();
+    }
+  } else {
+    await save_csv();
   }
 };
 
