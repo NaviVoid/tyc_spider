@@ -4,15 +4,14 @@ import util from "util";
 import nodeHtmlParser from "node-html-parser";
 import { Company, Inv } from "./db.js";
 import { randomInt } from "crypto";
+import Koa from "koa";
 import fs from "fs";
 dotenv.config();
 
-const MAX_DEPTH = 3;
-const CSV_FILE = `./res.csv`;
-const CIDS = [
-  3097983719, 1834977, 5332516171, 10000203432, 2344229885, 3479518807,
-  449614599, 730214534, 3269002394, 3290645689,
-];
+const MAX_DEPTH = parseInt(process.env.depth || "3");
+const CSV_FILE = process.env.dump || `./res.csv`;
+const CIDS: number[] =
+  process.env.cids?.split(",").map((num) => parseInt(num)) || [];
 
 const sleep = (time: number) => {
   return new Promise((resolve) =>
@@ -270,11 +269,6 @@ interface InvInterface {
 }
 
 const save_csv = async () => {
-  await mongoose.connect(process.env.db || "", {
-    keepAlive: true,
-    keepAliveInitialDelay: 300000,
-  });
-
   fs.writeFileSync(CSV_FILE, "company,pct,company,pct,company,pct,company\n", {
     flag: "w",
   });
@@ -347,37 +341,60 @@ const save_csv = async () => {
       continue;
     }
   }
-
-  await mongoose.connection.close();
 };
 
-const run = async () => {
-  const action = process.argv.at(2);
-  if (!action) {
-    return;
+const start_fetch = async () => {
+  try {
+    for (const cid of CIDS) {
+      console.log(`update ${cid} start`);
+      await update(cid);
+      console.log(`update ${cid} done`);
+      await sleep(10000);
+    }
+  } catch (err) {
+    console.log(err);
   }
+};
 
+const start_srv = async () => {
   await mongoose.connect(process.env.db || "", {
     keepAlive: true,
     keepAliveInitialDelay: 300000,
   });
+  console.log(`connect to mongodb`);
 
-  if (action === "update") {
-    try {
-      for (const cid of CIDS) {
-        console.log(`update ${cid} start`);
-        await update(cid);
-        console.log(`update ${cid} done`);
-        await sleep(10000);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      await mongoose.connection.close();
+  const app = new Koa();
+
+  app.use(async (ctx) => {
+    switch (ctx.request.url) {
+      case `/csv`:
+        await save_csv();
+        break;
+      case `/update`:
+        await start_fetch();
+        break;
+      default:
+        break;
     }
-  } else {
-    await save_csv();
-  }
+
+    ctx.body = "ok";
+  });
+
+  const port = parseInt(process.env.port || "8000");
+  const srv = app.listen(port, () => {
+    console.log(`listening on: ${port}`);
+  });
+
+  const cleanup = () => {
+    srv.close(async () => {
+      await mongoose.connection.close();
+      console.log(`disconnect from mongodb`);
+      process.exit();
+    });
+  };
+
+  process.on("SIGINT", cleanup);
+  process.on("SIGTERM", cleanup);
 };
 
-await run();
+await start_srv();
