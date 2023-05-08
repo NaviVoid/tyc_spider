@@ -8,6 +8,6 @@ COPY package.json package.json
 
 RUN npm i
 
-VOLUME [ ".env", "res.csv" ]
+VOLUME [ ".env", "res.csv", "names.txt" ]
 
 CMD [ "node", "." ]
