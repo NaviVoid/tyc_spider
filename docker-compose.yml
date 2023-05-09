@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  tyc_app:
+    image: tyc:1.0.0
+    container_name: tyc_app
+    environment:
+      - mongodb=mongodb://tyc:mongo233@tyc_mongo:27017/tyc
+    volumes:
+      - /path/names.txt:/app/names.txt
+      - /path/res.csv:/app/res.csv
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
+    networks:
+      - default
+  mongodb:
+    image: mongo:4.4.19-rc2
+    container_name: tyc_mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tyc
+      MONGO_INITDB_ROOT_PASSWORD: mongo233
+    volumes:
+      - "/path/data:/data/db"
+    networks:
+      - default
