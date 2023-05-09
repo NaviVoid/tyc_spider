@@ -1,15 +1,11 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import util from "util";
 import nodeHtmlParser from "node-html-parser";
 import { Company, Inv } from "./db.js";
 import { randomInt } from "crypto";
 import Koa from "koa";
 import fs from "fs";
-dotenv.config();
 
-const MAX_DEPTH = parseInt(process.env.depth || "3");
-const CSV_FILE = process.env.dump || `./res.csv`;
 const NAMES: string[] = fs.readFileSync("./names.txt").toString().split("\n");
 
 const sleep = (time: number) => {
@@ -232,7 +228,7 @@ const fetch_one = async (
       }
 
       // 进入下一层
-      if (depth < MAX_DEPTH) {
+      if (depth < 3) {
         for (const row of infos) {
           console.log(
             `${"  ".repeat(depth - 1)}${row.name} fetch in depth: ${depth + 1}`
@@ -417,7 +413,7 @@ const save_one_csv = async (cid: number) => {
         }
       }
 
-      fs.writeFileSync(CSV_FILE, lines.join("\n") + "\n", { flag: "a" });
+      fs.writeFileSync("./res.csv", lines.join("\n") + "\n", { flag: "a" });
     }
   } catch (err) {
     console.log(`save csv for ${cid} failed: ${err}`);
@@ -426,7 +422,7 @@ const save_one_csv = async (cid: number) => {
 
 const save_csv_header = () => {
   fs.writeFileSync(
-    CSV_FILE,
+    "./res.csv",
     "company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing\n",
     {
       flag: "w",
@@ -503,7 +499,7 @@ const start_fetch = async (token: string) => {
 };
 
 const start_srv = async () => {
-  await mongoose.connect(process.env.db || "", {
+  await mongoose.connect(process.env.mongodb || "", {
     keepAlive: true,
     keepAliveInitialDelay: 300000,
   });
@@ -528,7 +524,7 @@ const start_srv = async () => {
     ctx.body = "ok";
   });
 
-  const port = parseInt(process.env.port || "8000");
+  const port = 8000;
   const srv = app.listen(port, () => {
     console.log(`listening on: ${port}`);
   });
