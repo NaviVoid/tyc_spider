@@ -8,7 +8,6 @@ COPY package.json package.json
 
 RUN npm i
 
-VOLUME [ "res.csv", "names.txt" ]
-EXPOSE 8000
+VOLUME [ "/app/txts", "/app/logs" ]
 
 CMD [ "node", "." ]

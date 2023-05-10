@@ -2,13 +2,14 @@ version: '3.9'
 
 services:
   tyc_app:
-    image: tyc:1.0.0
+    image: tyc:1.1.0
     container_name: tyc_app
     environment:
       - mongodb=mongodb://tyc:mongo233@tyc_mongo:27017/tyc
     volumes:
       - /path/names.txt:/app/names.txt
       - /path/res.csv:/app/res.csv
+      - /path/logs:/app/logs
     ports:
       - 8000:8000
     depends_on:

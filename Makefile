@@ -1,6 +1,6 @@
-.PHONY: build upload
+.PHONY: build run
 
-VERSION=1.0.0
+VERSION=1.1.0
 NAME=tyc
 
 build:
@@ -8,3 +8,6 @@ build:
 	@pnpm tsc
 	@docker build -t ${NAME}:${VERSION}  .
 	@docker save -o ./deploy/${NAME}.tar ${NAME}:${VERSION}
+
+run:
+	@mongodb=mongodb://tyc:tyc233@127.0.0.1:27017/tyc?authSource=tyc pnpm start

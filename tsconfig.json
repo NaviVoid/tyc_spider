@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "es2016",
+    "module": "commonjs",
     "rootDir": "./",
     "baseUrl": "./",
     "esModuleInterop": true,
@@ -11,6 +11,6 @@
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
     "skipLibCheck": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "node"
   }
 }

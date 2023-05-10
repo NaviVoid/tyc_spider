@@ -21,6 +21,9 @@ const CompanySchema = new mongoose.Schema({
   legal_person_name: String,
   tags: [String],
   listing: { type: Number, required: true, default: 0 },
+  updated_at: { type: Date, required: true, default: Date.now },
+  invs_done: { type: Boolean, required: true, default: false }, // 投资关系是否更新结束了
+  info_done: { type: Boolean, required: true, default: false }, // 基本信息是否更新结束了
 });
 
 const Company = mongoose.model("Company", CompanySchema);
