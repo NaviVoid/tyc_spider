@@ -109,4 +109,55 @@ const save_csv_header = () => {
   );
 };
 
-export { save_one_csv, save_csv_header };
+const save_chain_csv = async ({ cid, name }: { cid: number; name: string }) => {
+  // todo:
+  try {
+    const lv1_invs = await load_level(cid);
+
+    if (lv1_invs.length > 0) {
+      let lines: string[] = [];
+
+      for (const lv1_inv of lv1_invs) {
+        const lv1_line = `${lv1_inv.owner},${lv1_inv.owner_tags.join(" ")},${
+          lv1_inv.owner_listing
+        },${lv1_inv.pct},${lv1_inv.name},${lv1_inv.tags.join(" ")},${
+          lv1_inv.listing
+        }`;
+
+        const lv2_invs = await load_level(lv1_inv.cid);
+
+        if (lv2_invs.length > 0) {
+          for (const lv2_inv of lv2_invs) {
+            const lv2_line = `${lv1_line},${lv2_inv.pct},${
+              lv2_inv.name
+            },${lv2_inv.tags.join(" ")},${lv2_inv.listing}`;
+
+            const lv3_invs = await load_level(lv2_inv.cid);
+
+            if (lv3_invs.length > 0) {
+              const lv3_lines = lv3_invs.map(
+                (lv3_inv) =>
+                  `${lv2_line},${lv3_inv.pct},${
+                    lv3_inv.name
+                  },${lv3_inv.tags.join(" ")},${lv3_inv.listing}`
+              );
+              lines = lines.concat(lv3_lines);
+            } else {
+              lines.push(lv2_line);
+            }
+          }
+        } else {
+          lines.push(lv1_line);
+        }
+      }
+
+      fs.writeFileSync("./txts/res.csv", lines.join("\n") + "\n", {
+        flag: "a",
+      });
+    }
+  } catch (err) {
+    log.error(`[save_one_csv] save csv for ${name} failed: ${err}`);
+  }
+};
+
+export { save_one_csv, save_csv_header, save_chain_csv };

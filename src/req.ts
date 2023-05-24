@@ -6,7 +6,8 @@ const try_fetch = async (
   method: "GET" | "POST",
   headers: HeadersInit | undefined,
   mode: RequestMode,
-  body: BodyInit | null | undefined
+  body: BodyInit | null | undefined,
+  keepalive: boolean | undefined = undefined
 ) => {
   let counter = 0;
 
@@ -17,9 +18,13 @@ const try_fetch = async (
         headers,
         mode,
         body,
+        keepalive,
       });
       if (response.status === 200) {
         return response;
+      }
+      if (response.status === 400) {
+        return;
       }
       log.error(
         `[try_fetch] fetch status: ${response.status}, ${method} "${url}"`

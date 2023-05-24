@@ -2,7 +2,7 @@ import util from "util";
 import nodeHtmlParser from "node-html-parser";
 import { Company, Inv } from "./db";
 import { try_fetch, sleep } from "./req";
-import { save_csv_header, save_one_csv } from "./csv";
+import { save_csv_header, save_chain_csv } from "./csv";
 import log from "./log";
 
 interface Cpy {
@@ -99,86 +99,103 @@ const fetch_infos = async ({ cid, name }: Cpy) => {
   }
 };
 
-const fetch_invs = async (
+const fetch_holder = async (
   { cid, name }: Cpy,
   timestamp: number,
   token: string,
   depth = 1
 ) => {
-  const url = `https://capi.tianyancha.com/cloud-equity-provider/v4/hold/companyholding?_=${timestamp}&id=${cid}&pageSize=100&pageNum=1`;
+  const url = `https://capi.tianyancha.com/cloud-company-background/companyV2/dim/holderForWeb?_=${timestamp}`;
 
   const headers = {
     "X-AUTH-TOKEN": token,
     Host: "capi.tianyancha.com",
     Origin: "https://www.tianyancha.com",
-    Referer: "https://www.tianyancha.com",
+    Referer: "https://www.tianyancha.com/",
+    Accept: "application/json, text/plain, */*",
+    Connection: "keep-alive",
     "User-Agent":
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
     version: "TYC-Web",
+    "Content-type": "application/json",
   };
 
-  const response = await try_fetch(url, "GET", headers, "cors", null);
+  const response = await try_fetch(
+    url,
+    "POST",
+    headers,
+    "no-cors",
+    JSON.stringify({
+      pageSize: 100,
+      pageNum: 1,
+      gid: cid.toString(),
+      percentLevel: -100,
+      sortField: "capitalAmount",
+      sortType: -100,
+    }),
+    true
+  );
   if (!response) {
-    log.error(`[fetch_invs] invalid response for ${name}`);
+    log.error(`[fetch_holder] invalid response for ${name}`);
     return;
   }
 
   const res = await response.json();
-  if (res?.data?.list) {
-    const rows = res["data"]["list"];
+  if (res?.data?.result) {
+    const rows = res["data"]["result"];
     if (rows.length) {
-      const infos = rows
+      const holders = rows
         .map((row: any) => {
-          if (!row.cid) {
+          // 只保留持股公司
+          if (!row.id || !row.type || row.type !== 1) {
             return;
           }
 
           return {
-            cid: row.cid,
+            cid: row.id,
             name: row.name,
-            alias: row.alias,
-            percent: parseFloat(row.percent.replace("%", "")),
-            legal_person_id: row.legalPersonId,
-            legal_person_name: row.legalPersonName,
-            reg_status: row.regStatus,
-            legal_type: row.legalType,
-            reg_capital: row.regCapital,
+            percent: row.percent,
           };
         })
         .filter((row: object | undefined) => row);
 
-      if (infos.length) {
-        // 删除以前存储的投资关系
-        await Inv.deleteMany({ owner: cid });
+      if (holders.length === 0) {
+        log.info(`[fetch_holder] [depth:${depth}] ${name} has no holders`);
+        return;
       }
 
+      // 删除以前存储的投资关系
+      await Inv.deleteMany({ cid });
+
       log.info(
-        `[fetch_invs] [depth:${depth}] ${name} has ${infos.length} invests`
+        `[fetch_holder] [depth:${depth}] ${name} has ${holders.length} holders`
       );
 
-      for (const row of infos) {
+      const holders_to_go = [];
+
+      for (const row of holders) {
+        const infos = await fetch_infos({ cid: row.cid, name: row.name });
+        if (!infos) {
+          log.error(`[fetch_holder] ${row.name} empty info`);
+          continue;
+        }
+
         await Company.findOneAndUpdate(
           { cid: row.cid },
           {
-            name: row.name,
-            alias: row.alias,
-            legal_person_id: row.legal_person_id,
-            legal_person_name: row.legal_person_name,
-            reg_status: row.reg_status,
-            legal_type: row.legal_type,
-            reg_capital: row.reg_capital,
-            invs_done: depth === 3 ? true : false,
-          },
-          {
-            upsert: true,
+            ...infos.info,
+            code: infos.code,
+            listing: infos.listing,
+            tags: infos.tags,
+            info_done: true,
           }
         );
         log.info(
-          `[fetch_invs] [depth:${depth}] ${name} upsert company ${row.name}`
+          `[fetch_holder] [depth:${depth}] ${name} upsert company ${row.name}`
         );
 
         await Inv.findOneAndUpdate(
-          { owner: cid, cid: row.cid },
+          { owner: row.cid, cid },
           {
             percent: row.percent,
           },
@@ -187,39 +204,63 @@ const fetch_invs = async (
           }
         );
         log.info(
-          `[fetch_invs] [depth:${depth}] ${name} upsert inv ${row.name}`
+          `[fetch_holder] [depth:${depth}] ${name} upsert inv ${row.name}`
         );
+
+        // 排除掉上市公司
+        if (infos.listing === 0) {
+          holders_to_go.push({
+            cid: row.cid,
+            name: row.name,
+            percent: row.percent,
+          });
+        }
 
         await sleep(9000);
       }
 
       // 进入下一层
-      if (depth < 3) {
-        for (const row of infos) {
-          log.info(`[fetch_one] [depth:${depth}] ${row.name} fetch invs`);
+      for (const row of holders_to_go) {
+        log.info(`[fetch_holder] [depth:${depth}] ${row.name} fetch holders`);
 
-          try {
-            await fetch_invs(
-              { cid: row.cid, name: row.name },
-              timestamp,
-              token,
-              depth + 1
-            );
+        const infos = await fetch_infos(row);
+        if (!infos) {
+          log.error(`[fetch_holder] ${row.name} empty info`);
+          continue;
+        }
 
-            // 更新本层所有公司状态
-            await Company.findOneAndUpdate(
-              { cid: row.cid },
-              { invs_done: true }
-            );
-            log.info(
-              `[fetch_one] [depth:${depth}] ${row.name} fetch invs done`
-            );
-          } catch (err) {
-            log.info(
-              `[fetch_one] [depth:${depth}] ${row.name} fetch invs error: ${err}`
-            );
-            continue;
+        await Company.findOneAndUpdate(
+          { cid: row.cid },
+          {
+            ...infos.info,
+            code: infos.code,
+            listing: infos.listing,
+            tags: infos.tags,
+            info_done: true,
           }
+        );
+        log.info(
+          `[fetch_holder] [depth:${depth}] ${name} upsert company ${row.name}`
+        );
+
+        await sleep(2000);
+
+        try {
+          await fetch_holder(
+            { cid: row.cid, name: row.name },
+            timestamp,
+            token,
+            depth + 1
+          );
+
+          log.info(
+            `[fetch_holder] [depth:${depth}] ${row.name} fetch holders done`
+          );
+        } catch (err) {
+          log.error(
+            `[fetch_holder] [depth:${depth}] ${row.name} fetch holders error: ${err}`
+          );
+          continue;
         }
       }
       return;
@@ -227,14 +268,14 @@ const fetch_invs = async (
 
     if (rows.length !== 0) {
       log.error(
-        `[fetch_invs] [depth:${depth}] api call for ${name} returns ${util.inspect(
+        `[fetch_holder] [depth:${depth}] api call for ${name} returns ${util.inspect(
           res
         )}`
       );
     }
   } else {
     log.error(
-      `[fetch_invs] [depth:${depth}] api call for ${name} returns null`
+      `[fetch_holder] [depth:${depth}] api call for ${name} returns null`
     );
   }
 };
@@ -281,18 +322,20 @@ const update = async (
     return { cid: cpy.cid, name: cpy.name };
   }
 
-  cpy.invs_done = false;
   cpy.info_done = false;
   cpy = await cpy.save();
 
   await sleep(2000);
 
+  if (cpy.listing === 1) {
+    log.info(`[update] ${cpy.name} is listed`);
+    return { cid: cpy.cid, name: cpy.name };
+  }
+
   try {
-    await fetch_invs(cpy, ts, token);
-    cpy.invs_done = true;
-    await cpy.save();
+    await fetch_holder(cpy, ts, token);
   } catch (err) {
-    log.error(`[update] ${cpy.name} fetch invs error: ${err}`);
+    log.error(`[update] ${cpy.name} fetch holders error: ${err}`);
     return;
   }
 
@@ -417,23 +460,18 @@ const after_fetch = async () => {
  */
 const start_fetch = async (token: string, NAMES: string[]) => {
   log.info(`[start_fetch] token: ${token}"`);
-  const cpys = (await Company.find({ invs_done: false }, { name: 1 })).map(
-    (doc) => doc.name
-  );
+  // const cpys = (await Company.find({ listing: 0 }, { name: 1 })).map(
+  //   (doc) => doc.name
+  // );
   // 重新开始则覆盖写入 header
-  if (cpys.length === 0) {
-    save_csv_header();
-  }
+  // if (cpys.length === 0) {
+  //   save_csv_header();
+  // }
 
   // 更新完毕可以写入 csv 的公司
   const cids: { cid: number; name: string }[] = [];
 
   for (const name of NAMES) {
-    if (cpys.length && cpys.indexOf(name) === -1) {
-      log.info(`[start_fetch] ${name} invs_done`);
-      continue;
-    }
-
     try {
       log.info(`[start_fetch] update ${name} start`);
       const res = await update(name, token);
@@ -450,11 +488,11 @@ const start_fetch = async (token: string, NAMES: string[]) => {
 
   await update_all_infos();
 
-  for (const { cid, name } of cids) {
-    await save_one_csv({ cid, name });
-    log.info(`[start_fetch] save ${name} to csv done`);
-    await sleep(100);
-  }
+  // for (const { cid, name } of cids) {
+  //   await save_chain_csv({ cid, name });
+  //   log.info(`[start_fetch] save ${name} to csv done`);
+  //   await sleep(100);
+  // }
 
   await after_fetch();
 };
