@@ -4,6 +4,7 @@ const InvSchema = new mongoose.Schema({
   owner: { type: Number, required: true },
   cid: { type: Number, required: true },
   percent: Number,
+  updated_at: { type: Date, required: true, default: Date.now },
 });
 
 InvSchema.index({ owner: 1, cid: 1 }, { unique: true });

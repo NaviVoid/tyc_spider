@@ -194,6 +194,16 @@ const fetch_holder = async (
           `[fetch_holder] [depth:${depth}] ${name} upsert company ${row.name}`
         );
 
+        // 可能存在投资环, 检查已存在投资关系的更新时间
+        const old_inv = await Inv.findOne({ owner: row.cid, cid });
+        if (
+          old_inv &&
+          old_inv.updated_at.toDateString() === new Date().toDateString()
+        ) {
+          log.info(`[fetch_holder] [depth:${depth}] ${name} circle done.`);
+          return;
+        }
+
         await Inv.findOneAndUpdate(
           { owner: row.cid, cid },
           {
