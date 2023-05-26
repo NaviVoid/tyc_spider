@@ -164,6 +164,13 @@ const fetch_holder = async (
         return;
       }
 
+      // 可能存在投资环, 检查已存在投资关系的更新时间
+      const old_inv = await Inv.findOne({ owner: holders[0].cid, cid });
+      if (old_inv && old_inv.percent) {
+        log.info(`[fetch_holder] [depth:${depth}] ${name} circle done.`);
+        return;
+      }
+
       // 删除以前存储的投资关系
       await Inv.deleteMany({ cid });
 
@@ -193,16 +200,6 @@ const fetch_holder = async (
         log.info(
           `[fetch_holder] [depth:${depth}] ${name} upsert company ${row.name}`
         );
-
-        // 可能存在投资环, 检查已存在投资关系的更新时间
-        const old_inv = await Inv.findOne({ owner: row.cid, cid });
-        if (
-          old_inv &&
-          old_inv.updated_at.toDateString() === new Date().toDateString()
-        ) {
-          log.info(`[fetch_holder] [depth:${depth}] ${name} circle done.`);
-          return;
-        }
 
         await Inv.findOneAndUpdate(
           { owner: row.cid, cid },
