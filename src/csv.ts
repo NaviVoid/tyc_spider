@@ -7,41 +7,27 @@ interface InvInterface {
   _id: string;
   cid: number;
   pct: number;
-  name: string;
-  tags: string[];
-  listing: number;
 }
 
 const load_level = async (owner: number): Promise<InvInterface[]> => {
   const invs: InvInterface[] = (
-    await Inv.aggregate([
-      { $match: { owner } },
-      {
-        $lookup: {
-          from: `companies`,
-          localField: `cid`,
-          foreignField: `cid`,
-          as: `company`,
-        },
-      },
-    ])
+    await Inv.find({ owner }, { cid: 1, percent: 1 })
   ).map((row) => {
     return {
       _id: row._id.toString(),
       cid: row.cid,
       pct: row.percent || 0,
-      name: row.company[0].name,
-      tags: row.company[0].tags,
-      listing: row.company[0].listing,
     };
   });
   return invs;
 };
 
 const inv_to_rows = async (owner: number): Promise<string[]> => {
+  const cpy = await Company.findOne({ cid: owner });
+  const prefix = `${cpy?.name},${cpy?.tags.join(" ")},${cpy?.listing}`;
   const invs = await load_level(owner);
   if (invs.length === 0) {
-    return [""];
+    return [prefix];
   }
 
   let lines: string[] = [];
@@ -51,7 +37,6 @@ const inv_to_rows = async (owner: number): Promise<string[]> => {
       continue;
     }
 
-    const prefix = `${inv.name},${inv.tags.join(" ")},${inv.listing}`;
     const rows = (await inv_to_rows(inv.cid)).map((row) => `${prefix},${row}`);
     lines = lines.concat(rows);
     RECORDS.push(inv._id);
@@ -59,19 +44,17 @@ const inv_to_rows = async (owner: number): Promise<string[]> => {
   return lines;
 };
 
-const get_one_rows = async (owner: number) => {
+const get_one_rows = async (cpy: any) => {
   let lines: string[] = [];
-  const cpy = await Company.findOne({ cid: owner });
-  const prefix = `${cpy?.name},${cpy?.tags.join(" ")},${cpy?.listing}`;
-
-  const top_lv_invs = await Inv.find({ owner });
+  const prefix = `${cpy.name},${cpy?.tags.join(" ")},${cpy.listing}`;
+  const top_lv_invs = await Inv.find({ owner: cpy.owner });
 
   if (top_lv_invs.length === 0) {
     return [prefix];
   }
 
   for (const inv of top_lv_invs) {
-    console.log(`processing invs: ${cpy?.name} => ${inv.cid}`);
+    console.log(`processing invs: ${cpy.name} => ${inv.cid}`);
     const rows = (await inv_to_rows(inv.cid)).map((row) => `${prefix},${row}`);
     lines = lines.concat(rows);
   }
@@ -101,7 +84,7 @@ const chain_csv = async (cid: number): Promise<string[]> => {
   if (!cpy) {
     return [];
   }
-  return await get_one_rows(cpy.cid);
+  return await get_one_rows(cpy);
 };
 
 const save_csv = async () => {
@@ -111,7 +94,7 @@ const save_csv = async () => {
     await Company.aggregate([
       {
         $lookup: {
-          from: "Invs",
+          from: "invs",
           foreignField: "cid",
           localField: "cid",
           as: "invs",
