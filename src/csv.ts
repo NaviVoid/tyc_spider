@@ -47,7 +47,7 @@ const inv_to_rows = async (owner: number): Promise<string[]> => {
 const get_one_rows = async (cpy: any) => {
   let lines: string[] = [];
   const prefix = `${cpy.name},${cpy?.tags.join(" ")},${cpy.listing}`;
-  const top_lv_invs = await Inv.find({ owner: cpy.owner });
+  const top_lv_invs = await Inv.find({ owner: cpy.cid });
 
   if (top_lv_invs.length === 0) {
     return [prefix];
@@ -79,11 +79,10 @@ const save_csv_rows = (rows: string[]) => {
 
 const chain_csv = async (cid: number): Promise<string[]> => {
   const cpy = await Company.findOne({ cid });
-  console.log(`processing: ${cpy?.name}`);
-
   if (!cpy) {
     return [];
   }
+  console.log(`processing: ${cpy?.name}`);
   return await get_one_rows(cpy);
 };
 
@@ -113,6 +112,8 @@ const save_csv = async () => {
       },
     ])
   ).map((cpy) => cpy.cid);
+
+  console.log(root_cpys);
 
   for (const cid of root_cpys) {
     const rows = await chain_csv(cid);
