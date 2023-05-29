@@ -6,6 +6,7 @@ services:
     container_name: tyc_app
     environment:
       - mongodb=mongodb://tyc:mongo233@tyc_mongo:27017/tyc
+      - action=csv
     volumes:
       - /path/names.txt:/app/names.txt
       - /path/res.csv:/app/res.csv

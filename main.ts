@@ -1,13 +1,9 @@
 import log from "./src/log";
 import mongoose from "mongoose";
-import run from "./src/rev";
+import rev from "./src/rev";
+import fet from "./src/app";
+import save_csv from "./src/csv";
 import fs from "fs";
-
-const NAMES: string[] = fs
-  .readFileSync("./txts/comp.txt")
-  .toString()
-  .split("\n")
-  .filter((row) => row !== "");
 
 (async () => {
   await mongoose.connect(process.env.mongodb || "", {
@@ -16,7 +12,26 @@ const NAMES: string[] = fs
   });
   log.info(`connect to mongodb`);
   const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOTEzNjM0MzEzNyIsImlhdCI6MTY4NDgyNTQ2MywiZXhwIjoxNjg3NDE3NDYzfQ.0HtNE0AI_7L7g7JYBLywDZ3awhfn7fhQ0uWBXVRuKUSLkKFWkMNxH5XJLxEzsw7AmdJTJ3zf6qIbFPqMT0bbAw`;
-  await run(token, NAMES);
+
+  const action = process.env.action || "";
+  if (action === "update") {
+    const names: string[] = fs
+      .readFileSync("./txts/names.txt")
+      .toString()
+      .split("\n")
+      .filter((row) => row !== "");
+    await fet(token, names);
+  } else if (action === "rev") {
+    const names: string[] = fs
+      .readFileSync("./txts/comp.txt")
+      .toString()
+      .split("\n")
+      .filter((row) => row !== "");
+    await rev(token, names);
+  } else {
+    await save_csv();
+  }
+
   await mongoose.connection.close();
   log.info(`disconnect from mongodb`);
 })();

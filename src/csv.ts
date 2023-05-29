@@ -1,22 +1,21 @@
-import log from "./log";
 import fs from "fs";
-import { Inv } from "./db";
+import { Company, Inv } from "./db";
+
+const RECORDS: string[] = [];
 
 interface InvInterface {
+  _id: string;
   cid: number;
   pct: number;
-  owner: string;
-  owner_tags: string[];
-  owner_listing: number;
   name: string;
   tags: string[];
   listing: number;
 }
 
-const load_level = async (cid: number): Promise<InvInterface[]> => {
+const load_level = async (owner: number): Promise<InvInterface[]> => {
   const invs: InvInterface[] = (
     await Inv.aggregate([
-      { $match: { owner: cid } },
+      { $match: { owner } },
       {
         $lookup: {
           from: `companies`,
@@ -25,22 +24,12 @@ const load_level = async (cid: number): Promise<InvInterface[]> => {
           as: `company`,
         },
       },
-      {
-        $lookup: {
-          from: `companies`,
-          localField: `owner`,
-          foreignField: `cid`,
-          as: `owner`,
-        },
-      },
     ])
   ).map((row) => {
     return {
+      _id: row._id.toString(),
       cid: row.cid,
       pct: row.percent || 0,
-      owner: row.owner[0].name,
-      owner_tags: row.owner[0].tags,
-      owner_listing: row.owner[0].listing,
       name: row.company[0].name,
       tags: row.company[0].tags,
       listing: row.company[0].listing,
@@ -49,54 +38,44 @@ const load_level = async (cid: number): Promise<InvInterface[]> => {
   return invs;
 };
 
-const save_one_csv = async ({ cid, name }: { cid: number; name: string }) => {
-  try {
-    const lv1_invs = await load_level(cid);
-
-    if (lv1_invs.length > 0) {
-      let lines: string[] = [];
-
-      for (const lv1_inv of lv1_invs) {
-        const lv1_line = `${lv1_inv.owner},${lv1_inv.owner_tags.join(" ")},${
-          lv1_inv.owner_listing
-        },${lv1_inv.pct},${lv1_inv.name},${lv1_inv.tags.join(" ")},${
-          lv1_inv.listing
-        }`;
-
-        const lv2_invs = await load_level(lv1_inv.cid);
-
-        if (lv2_invs.length > 0) {
-          for (const lv2_inv of lv2_invs) {
-            const lv2_line = `${lv1_line},${lv2_inv.pct},${
-              lv2_inv.name
-            },${lv2_inv.tags.join(" ")},${lv2_inv.listing}`;
-
-            const lv3_invs = await load_level(lv2_inv.cid);
-
-            if (lv3_invs.length > 0) {
-              const lv3_lines = lv3_invs.map(
-                (lv3_inv) =>
-                  `${lv2_line},${lv3_inv.pct},${
-                    lv3_inv.name
-                  },${lv3_inv.tags.join(" ")},${lv3_inv.listing}`
-              );
-              lines = lines.concat(lv3_lines);
-            } else {
-              lines.push(lv2_line);
-            }
-          }
-        } else {
-          lines.push(lv1_line);
-        }
-      }
-
-      fs.writeFileSync("./txts/res.csv", lines.join("\n") + "\n", {
-        flag: "a",
-      });
-    }
-  } catch (err) {
-    log.error(`[save_one_csv] save csv for ${name} failed: ${err}`);
+const inv_to_rows = async (owner: number): Promise<string[]> => {
+  const invs = await load_level(owner);
+  if (invs.length === 0) {
+    return [""];
   }
+
+  let lines: string[] = [];
+
+  for (const inv of invs) {
+    if (RECORDS.indexOf(inv._id) !== -1) {
+      continue;
+    }
+
+    const prefix = `${inv.name},${inv.tags.join(" ")},${inv.listing}`;
+    const rows = (await inv_to_rows(inv.cid)).map((row) => `${prefix},${row}`);
+    lines = lines.concat(rows);
+    RECORDS.push(inv._id);
+  }
+  return lines;
+};
+
+const get_one_rows = async (owner: number) => {
+  let lines: string[] = [];
+  const cpy = await Company.findOne({ cid: owner });
+  const prefix = `${cpy?.name},${cpy?.tags.join(" ")},${cpy?.listing}`;
+
+  const top_lv_invs = await Inv.find({ owner });
+
+  if (top_lv_invs.length === 0) {
+    return [prefix];
+  }
+
+  for (const inv of top_lv_invs) {
+    console.log(`processing invs: ${cpy?.name} => ${inv.cid}`);
+    const rows = (await inv_to_rows(inv.cid)).map((row) => `${prefix},${row}`);
+    lines = lines.concat(rows);
+  }
+  return lines;
 };
 
 const save_csv_header = () => {
@@ -109,55 +88,55 @@ const save_csv_header = () => {
   );
 };
 
-const save_chain_csv = async ({ cid, name }: { cid: number; name: string }) => {
-  // todo:
-  try {
-    const lv1_invs = await load_level(cid);
+const save_csv_rows = (rows: string[]) => {
+  fs.writeFileSync("./txts/res.csv", rows.join("\n") + "\n", {
+    flag: "a",
+  });
+};
 
-    if (lv1_invs.length > 0) {
-      let lines: string[] = [];
+const chain_csv = async (cid: number): Promise<string[]> => {
+  const cpy = await Company.findOne({ cid });
+  console.log(`processing: ${cpy?.name}`);
 
-      for (const lv1_inv of lv1_invs) {
-        const lv1_line = `${lv1_inv.owner},${lv1_inv.owner_tags.join(" ")},${
-          lv1_inv.owner_listing
-        },${lv1_inv.pct},${lv1_inv.name},${lv1_inv.tags.join(" ")},${
-          lv1_inv.listing
-        }`;
+  if (!cpy) {
+    return [];
+  }
+  return await get_one_rows(cpy.cid);
+};
 
-        const lv2_invs = await load_level(lv1_inv.cid);
+const save_csv = async () => {
+  save_csv_header();
 
-        if (lv2_invs.length > 0) {
-          for (const lv2_inv of lv2_invs) {
-            const lv2_line = `${lv1_line},${lv2_inv.pct},${
-              lv2_inv.name
-            },${lv2_inv.tags.join(" ")},${lv2_inv.listing}`;
+  const root_cpys: number[] = (
+    await Company.aggregate([
+      {
+        $lookup: {
+          from: "Invs",
+          foreignField: "cid",
+          localField: "cid",
+          as: "invs",
+        },
+      },
+      {
+        $project: {
+          cid: "$cid",
+          inv_len: { $size: "$invs" },
+        },
+      },
+      {
+        $match: {
+          inv_len: 0,
+        },
+      },
+    ])
+  ).map((cpy) => cpy.cid);
 
-            const lv3_invs = await load_level(lv2_inv.cid);
-
-            if (lv3_invs.length > 0) {
-              const lv3_lines = lv3_invs.map(
-                (lv3_inv) =>
-                  `${lv2_line},${lv3_inv.pct},${
-                    lv3_inv.name
-                  },${lv3_inv.tags.join(" ")},${lv3_inv.listing}`
-              );
-              lines = lines.concat(lv3_lines);
-            } else {
-              lines.push(lv2_line);
-            }
-          }
-        } else {
-          lines.push(lv1_line);
-        }
-      }
-
-      fs.writeFileSync("./txts/res.csv", lines.join("\n") + "\n", {
-        flag: "a",
-      });
+  for (const cid of root_cpys) {
+    const rows = await chain_csv(cid);
+    if (rows.length) {
+      save_csv_rows(rows);
     }
-  } catch (err) {
-    log.error(`[save_one_csv] save csv for ${name} failed: ${err}`);
   }
 };
 
-export { save_one_csv, save_csv_header, save_chain_csv };
+export default save_csv;

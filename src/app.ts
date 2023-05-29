@@ -2,7 +2,6 @@ import util from "util";
 import nodeHtmlParser from "node-html-parser";
 import { Company, Inv } from "./db";
 import { try_fetch, sleep } from "./req";
-import { save_csv_header, save_one_csv } from "./csv";
 import log from "./log";
 
 interface Cpy {
@@ -420,10 +419,6 @@ const start_fetch = async (token: string, NAMES: string[]) => {
   const cpys = (await Company.find({ invs_done: false }, { name: 1 })).map(
     (doc) => doc.name
   );
-  // 重新开始则覆盖写入 header
-  if (cpys.length === 0) {
-    save_csv_header();
-  }
 
   // 更新完毕可以写入 csv 的公司
   const cids: { cid: number; name: string }[] = [];
@@ -449,13 +444,6 @@ const start_fetch = async (token: string, NAMES: string[]) => {
   }
 
   await update_all_infos();
-
-  for (const { cid, name } of cids) {
-    await save_one_csv({ cid, name });
-    log.info(`[start_fetch] save ${name} to csv done`);
-    await sleep(100);
-  }
-
   await after_fetch();
 };
 
