@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import rev from "./src/rev";
 import fet from "./src/app";
 import save_csv from "./src/csv";
+import rev_csv from "./src/rev_csv";
 import fs from "fs";
 
 (async () => {
@@ -23,11 +24,13 @@ import fs from "fs";
     await fet(token, names);
   } else if (action === "rev") {
     const names: string[] = fs
-      .readFileSync("./txts/comp.txt")
+      .readFileSync("./txts/rev.txt")
       .toString()
       .split("\n")
       .filter((row) => row !== "");
     await rev(token, names);
+  } else if (action === "rev_csv") {
+    await rev_csv();
   } else {
     await save_csv();
   }

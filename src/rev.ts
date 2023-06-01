@@ -153,10 +153,15 @@ const fetch_holder = async (
           return {
             cid: row.id,
             name: row.name,
-            percent: row.percent,
+            percent:
+              row.percent ||
+              parseFloat((row?.finalBenefitShares || "0").replace("%", "")) /
+                100,
           };
         })
         .filter((row: object | undefined) => row);
+
+      // console.log(`${name} has holders: ${util.inspect(holders)}`);
 
       if (holders.length === 0) {
         log.info(`[fetch_holder] [depth:${depth}] ${name} has no holders`);
@@ -183,6 +188,14 @@ const fetch_holder = async (
         const infos = await fetch_infos({ cid: row.cid, name: row.name });
         if (!infos) {
           log.error(`[fetch_holder] ${row.name} empty info`);
+          await Company.findOneAndUpdate(
+            { cid: row.cid },
+            {
+              name: row.name,
+              info_done: true,
+            },
+            { upsert: true }
+          );
           continue;
         }
 
@@ -194,7 +207,9 @@ const fetch_holder = async (
             listing: infos.listing,
             tags: infos.tags,
             info_done: true,
-          }
+            name: row.name,
+          },
+          { upsert: true }
         );
         log.info(
           `[fetch_holder] [depth:${depth}] ${name} upsert company ${row.name}`
@@ -205,9 +220,7 @@ const fetch_holder = async (
           {
             percent: row.percent,
           },
-          {
-            upsert: true,
-          }
+          { upsert: true }
         );
         log.info(
           `[fetch_holder] [depth:${depth}] ${name} upsert inv ${row.name}`
@@ -243,6 +256,7 @@ const fetch_holder = async (
             listing: infos.listing,
             tags: infos.tags,
             info_done: true,
+            name: row.name,
           }
         );
         log.info(
@@ -437,6 +451,7 @@ const update_all_infos = async () => {
         listing: infos.listing,
         tags: infos.tags,
         info_done: true,
+        name: company.name,
       }
     );
     log.info(`[update_all_infos] ${company.name} done`);

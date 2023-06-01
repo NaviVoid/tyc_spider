@@ -1,0 +1,400 @@
+{
+  "state": "ok",
+  "message": "",
+  "special": "",
+  "vipMessage": "",
+  "isLogin": 0,
+  "errorCode": 0,
+  "data": {
+    "pageNum": 1,
+    "total": 8,
+    "pageSize": 100,
+    "historyCount": 20,
+    "result": [
+      {
+        "tagList": [
+          {
+            "name": "大股东",
+            "type": 1,
+            "color": null,
+            "background": null,
+            "title": null,
+            "value": null,
+            "sort": null,
+            "extraInfo": null
+          },
+          {
+            "name": "股权出质",
+            "type": 5,
+            "color": null,
+            "background": null,
+            "title": null,
+            "value": null,
+            "sort": 150,
+            "extraInfo": null
+          },
+          {
+            "name": "股权质押",
+            "type": 110,
+            "color": null,
+            "background": null,
+            "title": null,
+            "value": null,
+            "sort": 140,
+            "extraInfo": null
+          }
+        ],
+        "toco": 23,
+        "amount": 66036.1898,
+        "name": "黄红云",
+        "capital": [
+          {
+            "amomon": "66036.1898万",
+            "payment": null,
+            "time": "",
+            "percent": "-"
+          }
+        ],
+        "capitalActl": [],
+        "logo": null,
+        "id": 2301038208,
+        "type": 2,
+        "shareHolderType": "自然人股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": "11.1005%",
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": true,
+        "existBenefitDetail": false,
+        "serviceType": 1,
+        "serviceCount": 10
+      },
+      {
+        "tagList": [
+          {
+            "name": "曾用名",
+            "type": 9,
+            "color": "#757DD3",
+            "background": "#EDEEF9",
+            "title": "曾用名",
+            "value": "曾用名",
+            "sort": null,
+            "extraInfo": [
+              {
+                "name": "重庆市金科投资有限公司",
+                "startTime": "2007-12",
+                "endTime": "2013-04"
+              }
+            ]
+          }
+        ],
+        "toco": null,
+        "amount": 0.0,
+        "name": "重庆市金科投资控股（集团）有限责任公司",
+        "capital": [],
+        "capitalActl": [],
+        "logo": "https://img5.tianyancha.com/logo/lll/0157449f418e4310d22bf0e29fe6350c.png@!f_200x200",
+        "id": 140242432,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": "4.55%",
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": "b92d5218577",
+        "productName": "金科控股",
+        "productLogo": "https://img5.tianyancha.com/logo/product/9689641b12cd243c20d08b4aec1442d0.jpg@!f_200x200",
+        "existHoldingPath": true,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [],
+        "toco": null,
+        "amount": 0.0,
+        "name": "无锡润泰投资有限公司",
+        "capital": [],
+        "capitalActl": [],
+        "logo": "https://img5.tianyancha.com/logo/lll/2a6ba9bcca4bd105792a2b8d1abc6240.png@!f_200x200",
+        "id": 275949767,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": null,
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": false,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [
+          {
+            "name": "曾用名",
+            "type": 9,
+            "color": "#757DD3",
+            "background": "#EDEEF9",
+            "title": "曾用名",
+            "value": "曾用名",
+            "sort": null,
+            "extraInfo": [
+              {
+                "name": "石河子科源股权投资普通合伙企业",
+                "startTime": "日期未知",
+                "endTime": "2019-11"
+              },
+              {
+                "name": "重庆成长投资有限公司",
+                "startTime": "2008-06",
+                "endTime": "日期未知"
+              }
+            ]
+          }
+        ],
+        "toco": null,
+        "amount": 0.0,
+        "name": "石河子科源企业管理咨询服务普通合伙企业",
+        "capital": [],
+        "capitalActl": [],
+        "logo": null,
+        "id": 3393143825,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": null,
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": false,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [],
+        "toco": null,
+        "amount": 0.0,
+        "name": "深圳市君丰渝地投资合伙企业（有限合伙）",
+        "capital": [],
+        "capitalActl": [],
+        "logo": "https://img5.tianyancha.com/logo/lll/300773ff1b3527ad0ccb5ff688a9b791.png@!f_200x200",
+        "id": 275949652,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": null,
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": false,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [
+          {
+            "name": "曾用名",
+            "type": 9,
+            "color": "#757DD3",
+            "background": "#EDEEF9",
+            "title": "曾用名",
+            "value": "曾用名",
+            "sort": null,
+            "extraInfo": [
+              {
+                "name": "深圳市平安实业投资有限公司",
+                "startTime": "1998-03",
+                "endTime": "2008-05"
+              },
+              {
+                "name": "深圳平安实业投资公司",
+                "startTime": "1992-11",
+                "endTime": "1998-03"
+              }
+            ]
+          }
+        ],
+        "toco": null,
+        "amount": 0.0,
+        "name": "深圳市平安创新资本投资有限公司",
+        "capital": [],
+        "capitalActl": [],
+        "logo": "https://img5.tianyancha.com/logo/lll/345f61da337757dbd3c4b71c924bba6b.png@!f_200x200",
+        "id": 10421471,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": null,
+        "position": null,
+        "jigouName": "平安创新资本",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/7697b80d03e1132524d5897ef757681c.png@!f_200x200",
+        "jigouId": "b041e44967",
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": false,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [
+          {
+            "name": "曾用名",
+            "type": 9,
+            "color": "#757DD3",
+            "background": "#EDEEF9",
+            "title": "曾用名",
+            "value": "曾用名",
+            "sort": null,
+            "extraInfo": [
+              {
+                "name": "石河子展宏股权投资普通合伙企业",
+                "startTime": "2008-06",
+                "endTime": "2019-11"
+              }
+            ]
+          }
+        ],
+        "toco": null,
+        "amount": 0.0,
+        "name": "石河子展宏企业管理咨询服务普通合伙企业",
+        "capital": [],
+        "capitalActl": [],
+        "logo": null,
+        "id": 3391455478,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": null,
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": false,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      },
+      {
+        "tagList": [
+          {
+            "name": "曾用名",
+            "type": 9,
+            "color": "#757DD3",
+            "background": "#EDEEF9",
+            "title": "曾用名",
+            "value": "曾用名",
+            "sort": null,
+            "extraInfo": [
+              {
+                "name": "常州红星家具集团公司",
+                "startTime": "日期未知",
+                "endTime": "日期未知"
+              },
+              {
+                "name": "红星家具集团公司",
+                "startTime": "1994-06",
+                "endTime": "日期未知"
+              }
+            ]
+          }
+        ],
+        "toco": null,
+        "amount": 0.0,
+        "name": "红星家具集团有限公司",
+        "capital": [],
+        "capitalActl": [],
+        "logo": "https://img5.tianyancha.com/logo/lll/17c61159425acac200d34559d881a757.png@!f_200x200",
+        "id": 275949733,
+        "type": 1,
+        "shareHolderType": "企业股东",
+        "percent": 0.0,
+        "hcgid": 21434048,
+        "finalBenefitShares": "2.98%",
+        "position": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productId": null,
+        "productName": null,
+        "productLogo": null,
+        "existHoldingPath": true,
+        "existBenefitDetail": false,
+        "serviceType": null,
+        "serviceCount": null
+      }
+    ],
+    "shareHolderTypes": null,
+    "percentList": [
+      {
+        "key": "全部比例（8）",
+        "value": -100
+      },
+      {
+        "key": "不到5%（8）",
+        "value": 1
+      },
+      {
+        "key": "5%以上（0)",
+        "value": 2
+      },
+      {
+        "key": "25%以上（0）",
+        "value": 3
+      },
+      {
+        "key": "50%以上（0）",
+        "value": 4
+      },
+      {
+        "key": "90%以上（0）",
+        "value": 5
+      },
+      {
+        "key": "100%（0）",
+        "value": 6
+      },
+      {
+        "key": "其他（0）",
+        "value": 7
+      }
+    ],
+    "listedHolder": null,
+    "sortField": "capitalAmount",
+    "sortType": -100
+  }
+}

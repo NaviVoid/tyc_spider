@@ -1,0 +1,388 @@
+{
+  "state": "ok",
+  "message": "",
+  "special": "",
+  "vipMessage": "",
+  "isLogin": 0,
+  "errorCode": 0,
+  "data": {
+    "result": [
+      {
+        "name": "北京金科兴源置业有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续（在营、开业、在册）",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "马东兴",
+        "logo": "https://img5.tianyancha.com/logo/lll/f788d529f34bdf29ca3db74ee5733f02.png@!f_200x200",
+        "alias": "金科兴源",
+        "id": 21434024,
+        "amount": "10000",
+        "estiblishTime": 1202054400000,
+        "legalPersonId": 2276854682,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "深圳金科产业投资基金管理有限责任公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续（在营、开业、在册）",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "肖飞",
+        "logo": "https://img5.tianyancha.com/logo/lll/463d69263eed749385f9aac98283b02b.png@!f_200x200",
+        "alias": "金科产业",
+        "id": 2352462153,
+        "amount": "5000万人民币",
+        "estiblishTime": 1460304000000,
+        "legalPersonId": 2123441576,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "成都尚品室内设计有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "迁出",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "傅孝文",
+        "logo": null,
+        "alias": "尚品",
+        "id": 3014705375,
+        "amount": "720万人民币",
+        "estiblishTime": 847382400000,
+        "legalPersonId": 1793971939,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "重庆市金科坤合投资有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续(在营、开业、在册)",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "余昊峻",
+        "logo": "https://img5.tianyancha.com/logo/lll/2fd3dc70c9e812cbc625188a803e3bd1.png@!f_200x200",
+        "alias": "金科坤合",
+        "id": 158245247,
+        "amount": "4800万元",
+        "estiblishTime": 1244995200000,
+        "legalPersonId": 5791036296,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "深圳金科泽大置业有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "注销",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "段维立",
+        "logo": "https://img5.tianyancha.com/logo/lll/2ff0acd73938d98d060a48dc3f411b30.png@!f_200x200",
+        "alias": "金科泽大",
+        "id": 3019263442,
+        "amount": "2000万人民币",
+        "estiblishTime": 1487088000000,
+        "legalPersonId": 2030869197,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productName": "金科泽大",
+        "productLogo": null,
+        "productId": "b10ec414668"
+      },
+      {
+        "name": "金科新能源有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续（在营、开业、在册）",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "孟石锁",
+        "logo": "https://img5.tianyancha.com/logo/lll/9bec76addd6b68515126428d7ef73919.png@!f_200x200",
+        "alias": "金科",
+        "id": 25156743,
+        "amount": "200000万元",
+        "estiblishTime": 1413216000000,
+        "legalPersonId": 5745628958,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productName": "金科新能源",
+        "productLogo": "https://img5.tianyancha.com/logo/product/70de71f28f344b9840a6582a8388e51f.jpg@!f_200x200",
+        "productId": "b291792830"
+      },
+      {
+        "name": "重庆财信江景物业发展有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "注销",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "蒋思海",
+        "logo": null,
+        "alias": "财信江景",
+        "id": 799698130,
+        "amount": "1000万",
+        "estiblishTime": 1092672000000,
+        "legalPersonId": 2150324627,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": null,
+        "jigouLogo": null,
+        "jigouId": null,
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "金科金教育投资有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续(在营、开业、在册)",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "刘忠海",
+        "logo": "https://img5.tianyancha.com/logo/lll/c6d4fc43affe6b200daf9a31ea288c5d.png@!f_200x200",
+        "alias": "金科金",
+        "id": 3049729312,
+        "amount": "100000万元",
+        "estiblishTime": 1495728000000,
+        "legalPersonId": 1811420547,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "天津金科骏耀企业管理咨询服务有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续（在营、开业、在册）",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "孟石锁",
+        "logo": null,
+        "alias": "金科骏耀",
+        "id": 3225110927,
+        "amount": "1000万元",
+        "estiblishTime": 1536163200000,
+        "legalPersonId": 5745628958,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      },
+      {
+        "name": "上海金科裕丰实业集团有限公司",
+        "personType": 1,
+        "serviceType": null,
+        "regStatus": "存续（在营、开业、在册）",
+        "percent": "100%",
+        "legalPersonTitle": "法定代表人",
+        "legalPersonName": "全雄明",
+        "logo": null,
+        "alias": "金科裕丰",
+        "id": 5319350554,
+        "amount": "600000万元",
+        "estiblishTime": 1641312000000,
+        "legalPersonId": 1796434520,
+        "serviceCount": null,
+        "legalAlias": null,
+        "legalLogo": null,
+        "jigouName": "金科股份",
+        "jigouLogo": "https://img5.tianyancha.com/logo/jigou/a6f03f075bc9567cf7ffedbe9e3a7f46.png@!f_200x200",
+        "jigouId": "b60ad19927",
+        "productName": null,
+        "productLogo": null,
+        "productId": null
+      }
+    ],
+    "sortField": null,
+    "percentList": [
+      {
+        "key": "全部持股比例",
+        "value": "-100"
+      },
+      {
+        "key": "5%以上（38）",
+        "value": "2"
+      },
+      {
+        "key": "25%以上（34）",
+        "value": "3"
+      },
+      {
+        "key": "50%以上（31）",
+        "value": "4"
+      },
+      {
+        "key": "90%以上（22）",
+        "value": "5"
+      },
+      {
+        "key": "100%（17）",
+        "value": "6"
+      }
+    ],
+    "provinceList": [
+      {
+        "key": "全部所属省份",
+        "value": "-100"
+      },
+      {
+        "key": "陕西省（1）",
+        "value": "陕西省"
+      },
+      {
+        "key": "重庆市（15）",
+        "value": "重庆市"
+      },
+      {
+        "key": "福建省（1）",
+        "value": "福建省"
+      },
+      {
+        "key": "湖南省（1）",
+        "value": "湖南省"
+      },
+      {
+        "key": "湖北省（2）",
+        "value": "湖北省"
+      },
+      {
+        "key": "浙江省（2）",
+        "value": "浙江省"
+      },
+      {
+        "key": "江苏省（2）",
+        "value": "江苏省"
+      },
+      {
+        "key": "广西壮族自治区（1）",
+        "value": "广西壮族自治区"
+      },
+      {
+        "key": "广东省（3）",
+        "value": "广东省"
+      },
+      {
+        "key": "山东省（1）",
+        "value": "山东省"
+      },
+      {
+        "key": "安徽省（1）",
+        "value": "安徽省"
+      },
+      {
+        "key": "天津市（1）",
+        "value": "天津市"
+      },
+      {
+        "key": "四川省（2）",
+        "value": "四川省"
+      },
+      {
+        "key": "北京市（2）",
+        "value": "北京市"
+      },
+      {
+        "key": "上海市（3）",
+        "value": "上海市"
+      }
+    ],
+    "categoryList": [
+      {
+        "key": "全部所属行业",
+        "value": "-100"
+      },
+      {
+        "key": "金融业（5）",
+        "value": "金融业"
+      },
+      {
+        "key": "租赁和商务服务业（8）",
+        "value": "租赁和商务服务业"
+      },
+      {
+        "key": "电力、热力、燃气及水生产和供应业（1）",
+        "value": "电力、热力、燃气及水生产和供应业"
+      },
+      {
+        "key": "批发和零售业（5）",
+        "value": "批发和零售业"
+      },
+      {
+        "key": "房地产业（15）",
+        "value": "房地产业"
+      },
+      {
+        "key": "建筑业（1）",
+        "value": "建筑业"
+      },
+      {
+        "key": "居民服务、修理和其他服务业（1）",
+        "value": "居民服务、修理和其他服务业"
+      },
+      {
+        "key": "制造业（1）",
+        "value": "制造业"
+      },
+      {
+        "key": "信息传输、软件和信息技术服务业（1）",
+        "value": "信息传输、软件和信息技术服务业"
+      }
+    ],
+    "total": 38
+  }
+}

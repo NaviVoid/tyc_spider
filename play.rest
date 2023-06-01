@@ -1,0 +1,50 @@
+@TOKEN=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOTEzNjM0MzEzNyIsImlhdCI6MTY4NDgyNTQ2MywiZXhwIjoxNjg3NDE3NDYzfQ.0HtNE0AI_7L7g7JYBLywDZ3awhfn7fhQ0uWBXVRuKUSLkKFWkMNxH5XJLxEzsw7AmdJTJ3zf6qIbFPqMT0bbAw
+
+### 对外投资列表
+POST https://capi.tianyancha.com/cloud-company-background/company/investListV2?_=1685596512553 HTTP/1.1
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Connection: keep-alive
+Content-Length: 102
+Content-Type: application/json
+Host: capi.tianyancha.com
+Origin: https://www.tianyancha.com
+Referer: https://www.tianyancha.com/
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+Version: TYC-Web
+X-Auth-Token: {{TOKEN}}
+
+{"gid":"21434048","pageSize":100,"pageNum":1,"province":"-100","percentLevel":"-100","category":"-100"}
+
+### 股东列表
+POST https://capi.tianyancha.com/cloud-company-background/companyV2/dim/holderForWeb?_=1685597268135 HTTP/1.1
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Connection: keep-alive
+Content-Length: 102
+Content-Type: application/json
+Host: capi.tianyancha.com
+Origin: https://www.tianyancha.com
+Referer: https://www.tianyancha.com/
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+Version: TYC-Web
+X-Auth-Token: {{TOKEN}}
+
+{"pageSize":100,"pageNum":1,"gid":"21434048","percentLevel":-100,"sortField":"capitalAmount","sortType":-100}
+
+###
+GET https://capi.tianyancha.com/cloud-equity-provider/v4/hold/companyholding?_=1685604122234&id=21434048&pageSize=100&pageNum=1 HTTP/1.1
+Accept: application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+Connection: keep-alive
+Content-Length: 102
+Content-Type: application/json
+Host: capi.tianyancha.com
+Origin: https://www.tianyancha.com
+Referer: https://www.tianyancha.com/
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+Version: TYC-Web
+X-Auth-Token: {{TOKEN}}
