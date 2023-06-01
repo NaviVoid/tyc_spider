@@ -22,47 +22,38 @@ const load_level = async (cid: number): Promise<InvInterface[]> => {
   return invs;
 };
 
-const inv_to_rows = async (cid: number): Promise<string[]> => {
+const inv_to_rows = async (cid: number, p: string) => {
   const cpy = await Company.findOne({ cid });
-  const prefix = `${cpy?.name},${cpy?.tags.join(" ")},${cpy?.listing}`;
+  const prefix = `${p},${cpy?.name},${cpy?.tags.join(" ")},${cpy?.listing}`;
   const invs = await load_level(cid);
   if (invs.length === 0) {
-    return [prefix];
+    save_csv_rows([prefix]);
+    return;
   }
-
-  let lines: string[] = [];
 
   for (const inv of invs) {
     if (RECORDS.indexOf(inv._id) !== -1) {
       continue;
     }
 
-    const rows = (await inv_to_rows(inv.owner)).map(
-      (row) => `${prefix},${row}`
-    );
-    lines = lines.concat(rows);
+    await inv_to_rows(inv.owner, prefix);
     RECORDS.push(inv._id);
   }
-  return lines;
 };
 
 const get_one_rows = async (cpy: any) => {
-  let lines: string[] = [];
   const prefix = `${cpy.name},${cpy?.tags.join(" ")},${cpy.listing}`;
   const top_lv_invs = await Inv.find({ cid: cpy.cid });
 
   if (top_lv_invs.length === 0) {
-    return [prefix];
+    save_csv_rows([prefix]);
+    return;
   }
 
   for (const inv of top_lv_invs) {
-    console.log(`processing invs: ${cpy.name} => ${inv.cid}`);
-    const rows = (await inv_to_rows(inv.owner)).map(
-      (row) => `${prefix},${row}`
-    );
-    lines = lines.concat(rows);
+    console.log(`processing invs: ${cpy.name} => ${inv.owner}`);
+    await inv_to_rows(inv.owner, prefix);
   }
-  return lines;
 };
 
 const save_csv_header = () => {
@@ -81,13 +72,13 @@ const save_csv_rows = (rows: string[]) => {
   });
 };
 
-const chain_csv = async (cid: number): Promise<string[]> => {
+const chain_csv = async (cid: number) => {
   const cpy = await Company.findOne({ cid });
   if (!cpy) {
     return [];
   }
   console.log(`processing: ${cpy?.name}`);
-  return await get_one_rows(cpy);
+  await get_one_rows(cpy);
 };
 
 const save_csv = async () => {
@@ -103,13 +94,8 @@ const save_csv = async () => {
     await Company.find({ name: { $in: names } })
   ).map((cpy) => cpy.cid);
 
-  console.log(root_cpys);
-
   for (const cid of root_cpys) {
-    const rows = await chain_csv(cid);
-    if (rows.length) {
-      save_csv_rows(rows);
-    }
+    await chain_csv(cid);
   }
 };
 
