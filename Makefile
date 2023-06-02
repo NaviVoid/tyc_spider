@@ -1,6 +1,6 @@
 .PHONY: build run rev rev_csv
 
-VERSION=1.1.1
+VERSION=1.2.0
 NAME=tyc
 MONGODB=mongodb=mongodb://tyc:tyc233@127.0.0.1:27017/tyc?authSource=tyc
 
