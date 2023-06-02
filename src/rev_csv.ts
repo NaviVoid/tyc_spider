@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Company, Inv } from "./db";
 
-const RECORDS: string[] = [];
+const RECORDS: Set<string> = new Set();
 
 interface InvInterface {
   _id: string;
@@ -32,12 +32,13 @@ const inv_to_rows = async (cid: number, p: string) => {
   }
 
   for (const inv of invs) {
-    if (RECORDS.indexOf(inv._id) !== -1) {
+    if (RECORDS.has(inv._id)) {
+      console.log(`[RECORDS:${RECORDS.size}] skip ${cpy?.name} => ${inv._id}`);
       continue;
     }
-
-    await inv_to_rows(inv.owner, prefix);
-    RECORDS.push(inv._id);
+    RECORDS.add(inv._id);
+    await inv_to_rows(inv.owner, `${prefix},${inv?.pct || ""}`);
+    console.log(`[RECORDS:${RECORDS.size}] push ${cpy?.name} => ${inv._id}`);
   }
 };
 
@@ -52,14 +53,15 @@ const get_one_rows = async (cpy: any) => {
 
   for (const inv of top_lv_invs) {
     console.log(`processing invs: ${cpy.name} => ${inv.owner}`);
-    await inv_to_rows(inv.owner, prefix);
+    await inv_to_rows(inv.owner, `${prefix},${inv.percent}`);
+    console.log(`processing invs: ${cpy.name} => ${inv.owner} done`);
   }
 };
 
 const save_csv_header = () => {
   fs.writeFileSync(
     "./txts/res.csv",
-    "company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing\n",
+    "company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct,company,tag,listing,pct\n",
     {
       flag: "w",
     }
