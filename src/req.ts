@@ -46,9 +46,7 @@ const try_fetch = async (
 };
 
 const sleep = (time: number) => {
-  return new Promise((resolve) =>
-    setTimeout(resolve, time + randomInt(time / 2))
-  );
+  return new Promise((resolve) => setTimeout(resolve, time + randomInt(3)));
 };
 
 export { try_fetch, sleep };

@@ -146,14 +146,20 @@ const fetch_invs = async (
         })
         .filter((row: object | undefined) => row);
 
-      if (infos.length) {
-        // 删除以前存储的投资关系
-        await Inv.deleteMany({ owner: cid });
-      }
-
       log.info(
         `[fetch_invs] [depth:${depth}] ${name} has ${infos.length} invests`
       );
+
+      if (infos.length === 0) {
+        return;
+      }
+
+      // 可能存在投资环, 检查已存在投资关系
+      const old_inv = await Inv.findOne({ owner: cid, cid: infos[0].cid });
+      if (old_inv && old_inv.percent) {
+        log.info(`[fetch_invs] [depth:${depth}] ${name} circle done.`);
+        return;
+      }
 
       for (const row of infos) {
         await Company.findOneAndUpdate(
@@ -271,14 +277,14 @@ const update = async (
   }
 
   // 更新时间检查
-  if (
-    cpy?.updated_at &&
-    cpy?.updated_at.toISOString().slice(0, 10) >=
-      date.toISOString().slice(0, 10) &&
-    cpy?.invs_done
-  ) {
-    return { cid: cpy.cid, name: cpy.name };
-  }
+  // if (
+  //   cpy?.updated_at &&
+  //   cpy?.updated_at.toISOString().slice(0, 10) >=
+  //     date.toISOString().slice(0, 10) &&
+  //   cpy?.invs_done
+  // ) {
+  //   return { cid: cpy.cid, name: cpy.name };
+  // }
 
   cpy.invs_done = false;
   cpy.info_done = false;
@@ -287,9 +293,11 @@ const update = async (
   await sleep(2000);
 
   try {
+    log.info(`[update] ${cpy.name} fetch invs start`);
     await fetch_invs(cpy, ts, token);
     cpy.invs_done = true;
     await cpy.save();
+    log.info(`[update] ${cpy.name} fetch invs end`);
   } catch (err) {
     log.error(`[update] ${cpy.name} fetch invs error: ${err}`);
     return;
@@ -386,6 +394,7 @@ const update_all_infos = async () => {
         code: infos.code,
         listing: infos.listing,
         tags: infos.tags,
+        name: company.name,
         info_done: true,
       }
     );
@@ -396,17 +405,17 @@ const update_all_infos = async () => {
 /**
  * 最后运行的检测和打印日志
  */
-const after_fetch = async () => {
-  const invs_not_done = await Company.where({ invs_done: false });
-  for (const company of invs_not_done) {
-    log.error(`[after_fetch] ${company.name} invs not done`);
-  }
+// const after_fetch = async () => {
+//   const invs_not_done = await Company.where({ invs_done: false });
+//   for (const company of invs_not_done) {
+//     log.error(`[after_fetch] ${company.name} invs not done`);
+//   }
 
-  const info_not_done = await Company.where({ info_done: false });
-  for (const company of info_not_done) {
-    log.error(`[after_fetch] ${company.name} info not done`);
-  }
-};
+//   const info_not_done = await Company.where({ info_done: false });
+//   for (const company of info_not_done) {
+//     log.error(`[after_fetch] ${company.name} info not done`);
+//   }
+// };
 
 /**
  * 使用 token 和 save_point 开始爬取
@@ -416,26 +425,23 @@ const after_fetch = async () => {
  */
 const start_fetch = async (token: string, NAMES: string[]) => {
   log.info(`[start_fetch] token: ${token}"`);
-  const cpys = (await Company.find({ invs_done: false }, { name: 1 })).map(
-    (doc) => doc.name
-  );
+  // const cpys = (await Company.find({ invs_done: false }, { name: 1 })).map(
+  //   (doc) => doc.name
+  // );
 
   // 更新完毕可以写入 csv 的公司
-  const cids: { cid: number; name: string }[] = [];
+  // const cids: { cid: number; name: string }[] = [];
 
   for (const name of NAMES) {
-    if (cpys.length && cpys.indexOf(name) === -1) {
-      log.info(`[start_fetch] ${name} invs_done`);
-      continue;
-    }
+    // if (cpys.length && cpys.indexOf(name) === -1) {
+    //   log.info(`[start_fetch] ${name} invs_done`);
+    //   continue;
+    // }
 
     try {
       log.info(`[start_fetch] update ${name} start`);
-      const res = await update(name, token);
+      await update(name, token);
       log.info(`[start_fetch] update ${name} done`);
-      if (res) {
-        cids.push(res);
-      }
     } catch (err) {
       // 实在会出错的先跳过, 之后整理名单放到最后重新爬取
       log.error(`[start_fetch] failed for ${name} error: ${err}`);
@@ -444,7 +450,7 @@ const start_fetch = async (token: string, NAMES: string[]) => {
   }
 
   await update_all_infos();
-  await after_fetch();
+  // await after_fetch();
 };
 
 export default start_fetch;

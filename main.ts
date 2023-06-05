@@ -7,12 +7,17 @@ import rev_csv from "./src/rev_csv";
 import fs from "fs";
 
 (async () => {
+  const token = process.env.token || "";
+  if (!token) {
+    log.info(`need token`);
+    return;
+  }
+
   await mongoose.connect(process.env.mongodb || "", {
     keepAlive: true,
     keepAliveInitialDelay: 300000,
   });
   log.info(`connect to mongodb`);
-  const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOTEzNjM0MzEzNyIsImlhdCI6MTY4NDgyNTQ2MywiZXhwIjoxNjg3NDE3NDYzfQ.0HtNE0AI_7L7g7JYBLywDZ3awhfn7fhQ0uWBXVRuKUSLkKFWkMNxH5XJLxEzsw7AmdJTJ3zf6qIbFPqMT0bbAw`;
 
   const action = process.env.action || "";
   if (action === "update") {
