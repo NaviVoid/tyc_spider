@@ -168,6 +168,14 @@ const fetch_holder = async (
         return;
       }
 
+      // note: 超过10个 holder 就不继续了
+      if (holders.length > 10) {
+        log.error(
+          `[fetch_holder] [depth:${depth}] ${name} has more than 10 holders`
+        );
+        return;
+      }
+
       // 可能存在投资环, 检查已存在投资关系的更新时间
       const old_inv = await Inv.findOne({ owner: holders[0].cid, cid });
       if (old_inv && old_inv.percent) {
