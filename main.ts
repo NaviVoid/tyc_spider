@@ -2,7 +2,7 @@ import log from "./src/log";
 import mongoose from "mongoose";
 import rev from "./src/rev";
 import fet from "./src/app";
-import save_csv from "./src/csv";
+import save_csv from "./src/inv_csv";
 import rev_csv from "./src/rev_csv";
 import fs from "fs";
 
@@ -37,7 +37,12 @@ import fs from "fs";
   } else if (action === "rev_csv") {
     await rev_csv();
   } else {
-    await save_csv();
+    const names: string[] = fs
+      .readFileSync("./txts/names.txt")
+      .toString()
+      .split("\n")
+      .filter((row) => row !== "");
+    await save_csv(names);
   }
 
   await mongoose.connection.close();

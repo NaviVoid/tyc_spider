@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const InvSchema = new mongoose.Schema({
   owner: { type: Number, required: true },
   cid: { type: Number, required: true },
-  percent: Number,
+  percent: { type: Number, required: true },
   updated_at: { type: Date, required: true, default: Date.now },
 });
 
