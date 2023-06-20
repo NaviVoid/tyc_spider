@@ -2,18 +2,15 @@ version: '3.9'
 
 services:
   tyc_app:
-    image: tyc:1.1.0
+    image: tyc:1.3.0
     container_name: tyc_app
     environment:
       - mongodb=mongodb://tyc:mongo233@tyc_mongo:27017/tyc
       - action=csv
       - token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxOTEzNjM0MzEzNyIsImlhdCI6MTY4NDgyNTQ2MywiZXhwIjoxNjg3NDE3NDYzfQ.0HtNE0AI_7L7g7JYBLywDZ3awhfn7fhQ0uWBXVRuKUSLkKFWkMNxH5XJLxEzsw7AmdJTJ3zf6qIbFPqMT0bbAw
     volumes:
-      - /path/names.txt:/app/names.txt
-      - /path/res.csv:/app/res.csv
+      - /path/txts:/app/txts
       - /path/logs:/app/logs
-    ports:
-      - 8000:8000
     depends_on:
       - mongodb
     networks:
